@@ -2,7 +2,7 @@ extends PlayerState
 
 func enter(previous_state_path: String, data = {}) -> void:
 	
-		CharacterPlayer.animation_player.play("CrouchProne", -1, -CharacterPlayer.animation_speed, true)
+		CharacterPlayer.animation_player.play("ProneCrouching", -1, -CharacterPlayer.animation_speed, true)
 		print("Transitioning from Prone to Crouch - ",  "crouching: %s, proning: %s" % [str(crouchingFromProne), str(proning)])
 		
 		crouchingFromProne = true

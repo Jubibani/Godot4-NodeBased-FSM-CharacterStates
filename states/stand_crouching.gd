@@ -6,11 +6,11 @@ func enter(previous_state_path: String, data = {}) -> void:
 	print("Crouch State: ", "crouching: %s, proning: %s" % [str(crouchingFromStand), str(proning)]) 
 	
 	if crouchingFromStand:
-		CharacterPlayer.animation_player.play("CROUCHING", -1, CharacterPlayer.animation_speed)
+		CharacterPlayer.animation_player.play("StandCrouching", -1, CharacterPlayer.animation_speed)
 		print("Entering Crouching State - ",  "crouching: %s, proning: %s" % [str(crouchingFromStand), str(proning)])
 		
 	elif crouchingFromProne and not proning:
-		CharacterPlayer.animation_player.play("CrouchProne", -1, -CharacterPlayer.animation_speed, true)
+		CharacterPlayer.animation_player.play("ProneCrouching", -1, -CharacterPlayer.animation_speed, true)
 		print("Transitioning from Prone to Crouch - ",  "crouching: %s, proning: %s" % [str(crouchingFromProne), str(proning)])
 		
 	crouchingFromProne = true

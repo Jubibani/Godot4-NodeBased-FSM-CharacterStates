@@ -3,9 +3,9 @@ class_name PlayerState extends State
 
 #this will serve as a reference
 const Standing = "Standing"
-const Crouching = "Crouching"
+const StandCrouching = "StandCrouching"
+const ProneCrouching = "ProneCrouching"
 const Proning = "Proning"
-const ProneCrouch = "ProneCrouch"
 
 #static var crouching : bool = false
 

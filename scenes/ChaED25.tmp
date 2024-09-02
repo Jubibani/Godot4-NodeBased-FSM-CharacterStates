@@ -1,43 +1,15 @@
-[gd_scene load_steps=28 format=3 uid="uid://b0qtya1seyinl"]
+[gd_scene load_steps=20 format=3 uid="uid://d4fe48l2la7q4"]
 
-[ext_resource type="Script" path="res://scripts/Character.gd" id="2_x0gb5"]
-[ext_resource type="Texture2D" uid="uid://dr7m7p502o4h4" path="res://assets/kenney_prototype-textures/Vector/texture_01.svg" id="3_48qdt"]
-[ext_resource type="Script" path="res://addons/virtual_joystick/virtual_joystick.gd" id="3_v0282"]
-[ext_resource type="Texture2D" uid="uid://bm30au8mjfc2f" path="res://addons/virtual_joystick/textures/joystick_base_outline.png" id="4_hgcqf"]
-[ext_resource type="Texture2D" uid="uid://dt13r06u87fib" path="res://addons/virtual_joystick/textures/joystick_tip_arrows.png" id="5_c5gdw"]
-[ext_resource type="Texture2D" uid="uid://dyb5duilp42dk" path="res://assets/Mobile-Controls/UI/UI_Circle_Bevel_Base.png" id="6_hgq6i"]
-[ext_resource type="Script" path="res://scripts/state_machine.gd" id="7_0wgy7"]
-[ext_resource type="Script" path="res://states/standing.gd" id="8_jakdg"]
-[ext_resource type="Script" path="res://states/stand_crouching.gd" id="9_s8upg"]
-[ext_resource type="Script" path="res://states/proning.gd" id="10_81ndq"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dfdek"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
-[sub_resource type="Sky" id="Sky_vrl4e"]
-sky_material = SubResource("ProceduralSkyMaterial_dfdek")
-
-[sub_resource type="Environment" id="Environment_oiuq1"]
-background_mode = 2
-sky = SubResource("Sky_vrl4e")
-tonemap_mode = 2
-glow_enabled = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npahj"]
-albedo_color = Color(5.25828e-06, 0.507427, 0.0761595, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_egi0j"]
-size = Vector2(150, 150)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_v0hxx"]
-data = PackedVector3Array(75, 0, 75, -75, 0, 75, 75, 0, -75, -75, 0, 75, -75, 0, -75, 75, 0, -75)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gbhc7"]
-albedo_color = Color(0.512438, 0.193127, 4.81308e-08, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gneho"]
-albedo_texture = ExtResource("3_48qdt")
+[ext_resource type="Script" path="res://scripts/Character.gd" id="1_vvc6c"]
+[ext_resource type="Script" path="res://addons/virtual_joystick/virtual_joystick.gd" id="2_djxna"]
+[ext_resource type="Texture2D" uid="uid://bm30au8mjfc2f" path="res://addons/virtual_joystick/textures/joystick_base_outline.png" id="3_u7s0n"]
+[ext_resource type="Texture2D" uid="uid://dt13r06u87fib" path="res://addons/virtual_joystick/textures/joystick_tip_arrows.png" id="4_1fxik"]
+[ext_resource type="Texture2D" uid="uid://dyb5duilp42dk" path="res://assets/Mobile-Controls/UI/UI_Circle_Bevel_Base.png" id="5_gmt43"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="6_gco1r"]
+[ext_resource type="Script" path="res://states/standing.gd" id="7_551i0"]
+[ext_resource type="Script" path="res://states/crouching.gd" id="8_tykwr"]
+[ext_resource type="Script" path="res://states/proning.gd" id="9_4gs62"]
+[ext_resource type="Script" path="res://states/prone_crouch.gd" id="10_t5tvw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nwh1x"]
 
@@ -262,102 +234,25 @@ _data = {
 "StandProne": SubResource("Animation_48ycb")
 }
 
-[node name="Node3D" type="Node3D"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_oiuq1")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-shadow_enabled = true
-
-[node name="ground" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_npahj")
-mesh = SubResource("PlaneMesh_egi0j")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="ground"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ground/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_v0hxx")
-
-[node name="combine" type="CSGCombiner3D" parent="."]
-use_collision = true
-
-[node name="wall" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35381, -12.145)
-size = Vector3(1, 4.90942, 7.49365)
-
-[node name="box" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0659, 2.04976, 7.07218)
-size = Vector3(5.59229, 4.90942, 7.49365)
-material = SubResource("StandardMaterial3D_gbhc7")
-
-[node name="pillar" type="CSGCylinder3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.4112, 3.759, 0)
-height = 7.69515
-
-[node name="pillar2" type="CSGCylinder3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.9418, 3.759, -8.33976)
-height = 7.69515
-
-[node name="pillar3" type="CSGCylinder3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 0.867123, 0.498094, 0, -0.498094, 0.867123, -36.8066, 5.43758, -6.59961)
-height = 13.5251
-
-[node name="box2" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.282, 4.06465, -14.7299)
-size = Vector3(5.59229, 8.93921, 7.49365)
-material = SubResource("StandardMaterial3D_gbhc7")
-
-[node name="wall2" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.6688, 2.35381, 5.38315)
-size = Vector3(1, 4.90942, 7.49365)
-
-[node name="wall3" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.7611, 2.35381, -6.3568)
-size = Vector3(1, 4.90942, 7.49365)
-
-[node name="circle" type="CSGSphere3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.184, 16.2641, -35.9823)
-radius = 7.89193
-
-[node name="pillar4" type="CSGCylinder3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.05287, 5.40963, -37.1962)
-height = 10.6731
-
-[node name="miniGround" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.2763, 0.290341, 40.9004)
-size = Vector3(28.0435, 1, 42.8849)
-material = SubResource("StandardMaterial3D_gneho")
-
-[node name="wall4" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.6788, 4.29987, 1.15561)
-size = Vector3(15.076, 1.0564, 7.49365)
-
-[node name="box3" type="CSGBox3D" parent="combine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9757, 1.68893, -8.59765)
-size = Vector3(5.59229, 3.86414, 7.49365)
-material = SubResource("StandardMaterial3D_gbhc7")
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("animation_player")]
-script = ExtResource("2_x0gb5")
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("1_vvc6c")
 animation_player = NodePath("AnimationPlayer")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_nwh1x")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/CollisionShape3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
 mesh = SubResource("CapsuleMesh_stm7g")
 skeleton = NodePath("../..")
 
-[node name="head" type="Node3D" parent="CharacterBody3D"]
+[node name="head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51472, -0.0438347)
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/head"]
+[node name="Camera3D" type="Camera3D" parent="head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="Control" type="Control" parent="CharacterBody3D"]
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -365,11 +260,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Test" type="Node2D" parent="CharacterBody3D/Control"]
+[node name="Test" type="Node2D" parent="Control"]
 
-[node name="UI" type="CanvasLayer" parent="CharacterBody3D/Control/Test"]
+[node name="UI" type="CanvasLayer" parent="Control/Test"]
 
-[node name="Virtual joystick left" type="Control" parent="CharacterBody3D/Control/Test/UI"]
+[node name="Virtual joystick left" type="Control" parent="Control/Test/UI"]
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
@@ -379,9 +274,9 @@ offset_top = -369.0
 offset_right = 378.0
 offset_bottom = -8.0
 grow_vertical = 0
-script = ExtResource("3_v0282")
+script = ExtResource("2_djxna")
 
-[node name="Base" type="TextureRect" parent="CharacterBody3D/Control/Test/UI/Virtual joystick left"]
+[node name="Base" type="TextureRect" parent="Control/Test/UI/Virtual joystick left"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -396,10 +291,10 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(100, 100)
 mouse_force_pass_scroll_events = false
-texture = ExtResource("4_hgcqf")
+texture = ExtResource("3_u7s0n")
 stretch_mode = 5
 
-[node name="Tip" type="TextureRect" parent="CharacterBody3D/Control/Test/UI/Virtual joystick left/Base"]
+[node name="Tip" type="TextureRect" parent="Control/Test/UI/Virtual joystick left/Base"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -413,10 +308,10 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(50, 50)
-texture = ExtResource("5_c5gdw")
+texture = ExtResource("4_1fxik")
 stretch_mode = 5
 
-[node name="buttons" type="Control" parent="CharacterBody3D/Control"]
+[node name="buttons" type="Control" parent="Control"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -429,41 +324,44 @@ offset_bottom = 191.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="jump" type="TouchScreenButton" parent="CharacterBody3D/Control/buttons"]
+[node name="jump" type="TouchScreenButton" parent="Control/buttons"]
 position = Vector2(172, 3)
 scale = Vector2(0.0859375, 0.0917969)
-texture_normal = ExtResource("6_hgq6i")
+texture_normal = ExtResource("5_gmt43")
 shape = SubResource("CircleShape2D_a2wg5")
 
-[node name="run" type="TouchScreenButton" parent="CharacterBody3D/Control/buttons"]
+[node name="run" type="TouchScreenButton" parent="Control/buttons"]
 position = Vector2(58, 4)
 scale = Vector2(0.0859375, 0.0917969)
-texture_normal = ExtResource("6_hgq6i")
+texture_normal = ExtResource("5_gmt43")
 shape = SubResource("CircleShape2D_a2wg5")
 
-[node name="crouch" type="TouchScreenButton" parent="CharacterBody3D/Control/buttons"]
+[node name="crouch" type="TouchScreenButton" parent="Control/buttons"]
 position = Vector2(119, 117)
 scale = Vector2(0.0859375, 0.0917969)
-texture_normal = ExtResource("6_hgq6i")
+texture_normal = ExtResource("5_gmt43")
 shape = SubResource("CircleShape2D_a2wg5")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody3D"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_wna7o")
 }
 
-[node name="StateMachine" type="Node" parent="CharacterBody3D"]
-script = ExtResource("7_0wgy7")
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("6_gco1r")
 
-[node name="Standing" type="Node" parent="CharacterBody3D/StateMachine"]
-script = ExtResource("8_jakdg")
+[node name="Standing" type="Node" parent="StateMachine"]
+script = ExtResource("7_551i0")
 
-[node name="Crouching" type="Node" parent="CharacterBody3D/StateMachine"]
-script = ExtResource("9_s8upg")
+[node name="Crouching" type="Node" parent="StateMachine"]
+script = ExtResource("8_tykwr")
 
-[node name="Proning" type="Node" parent="CharacterBody3D/StateMachine"]
-script = ExtResource("10_81ndq")
+[node name="ProneCrouch" type="Node" parent="StateMachine"]
+script = ExtResource("10_t5tvw")
 
-[connection signal="pressed" from="CharacterBody3D/Control/buttons/jump" to="CharacterBody3D" method="_on_jump_pressed"]
-[connection signal="pressed" from="CharacterBody3D/Control/buttons/run" to="CharacterBody3D" method="_on_run_pressed"]
-[connection signal="pressed" from="CharacterBody3D/Control/buttons/crouch" to="CharacterBody3D" method="_on_crouch_pressed"]
+[node name="Proning" type="Node" parent="StateMachine"]
+script = ExtResource("9_4gs62")
+
+[connection signal="pressed" from="Control/buttons/jump" to="." method="_on_jump_pressed"]
+[connection signal="pressed" from="Control/buttons/run" to="." method="_on_run_pressed"]
+[connection signal="pressed" from="Control/buttons/crouch" to="." method="_on_crouch_pressed"]
