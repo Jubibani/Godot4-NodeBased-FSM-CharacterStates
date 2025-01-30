@@ -363,4 +363,4 @@ size = Vector3(3.89551, 0.723801, 8.04843)
 material = SubResource("StandardMaterial3D_submt")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("6_qdyrg")]
-transform = Transform3D(0.783715, 0, 0.62112, 0, 1, 0, -0.62112, 0, 0.783715, -9.11075, 1.5467, -23.8142)
+transform = Transform3D(-0.240753, 0, 0.970586, 0, 1, 0, -0.970586, 0, -0.240753, -7.52405, 2.19208, -24.6459)

@@ -9,8 +9,14 @@ func enter(previous_state_path: String, data := {}) -> void:
 	Input.action_release("prone_or_unprone")
 	Input.action_release("run")
 	Input.action_release("Jump")
+	
+	#add footstep
+	CharacterPlayer.step_interval = 0.3 # Increased to simulate runnning
+	CharacterPlayer.footstep_sound.volume_db = -35
+
 
 func physics_update(_delta: float) -> void:
+	
 	if Input.is_action_just_pressed("crouch_or_uncrouch"):
 		crouchingFromStand = true
 		finished.emit(StandCrouching)
@@ -24,6 +30,7 @@ func physics_update(_delta: float) -> void:
 
 		
 	if Input.is_action_just_pressed("run"):
+		
 		finished.emit(Standing)
 	
 		

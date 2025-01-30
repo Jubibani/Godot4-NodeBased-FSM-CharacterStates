@@ -8,6 +8,13 @@ func enter(previous_state_path: String, data = {}) -> void:
 	crouchingFromProne = true
 	proning = false
 		
+	#mute footstep
+	CharacterPlayer.footstep_sound.volume_db = -100
+	
+	#add sound
+	CharacterPlayer.crouching_sound.play()
+	CharacterPlayer.crouching_sound.volume_db = -35
+		
 	CharacterPlayer.SPEED = CharacterPlayer.crouching_speed
 	print("crouching speed at: ", CharacterPlayer.SPEED)
 	
@@ -18,13 +25,16 @@ func enter(previous_state_path: String, data = {}) -> void:
 	Input.action_release("Jump")
 	
 func physics_update(_delta: float) -> void:
-	if Input.is_action_just_pressed("crouch_or_uncrouch") and crouchingFromProne and not proning:
+	if Input.is_action_just_pressed("crouch_or_uncrouch") or Input.is_action_just_pressed("Jump") and crouchingFromProne and not proning:
 		finished.emit(Standing)  # Transition back to standing
-		
+		Input.action_release("crouch_or_uncrouch")
+		Input.action_release("Jump")
 		
 		
 	if Input.is_action_just_pressed("prone_or_unprone") and crouchingFromProne and not proning:
 		finished.emit(Proning) 
+		Input.action_release("prone_or_unprone")
+		
 	
 
 
