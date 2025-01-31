@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://blu6csip2k6k"]
+[gd_scene load_steps=21 format=3 uid="uid://blu6csip2k6k"]
 
 [ext_resource type="Texture2D" uid="uid://dy4ve5ftibvjk" path="res://assets/kenney_prototype-textures/PNG/Orange/texture_09.png" id="1_mmg4v"]
 [ext_resource type="Texture2D" uid="uid://7hrukxyxqqsj" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_08.png" id="2_f1e8f"]
@@ -43,6 +43,14 @@ albedo_texture = ExtResource("5_pqren")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pkhqy"]
 albedo_texture = ExtResource("1_mmg4v")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mpigo"]
+albedo_color = Color(0.388367, 0.294874, 0.0903574, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ku4q7"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_wy3r4"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [node name="world" type="Node3D"]
 
@@ -238,7 +246,7 @@ size = Vector3(0.802597, 0.701294, 3.8949)
 material = SubResource("StandardMaterial3D_yykup")
 
 [node name="wall" type="CSGBox3D" parent="combiner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00295, 2.67814, -31.7101)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96947, 2.76058, -31.7527)
 size = Vector3(4.05353, 3.47371, 8.05859)
 material = SubResource("StandardMaterial3D_mh6jp")
 
@@ -361,6 +369,17 @@ material = SubResource("StandardMaterial3D_submt")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.7171, 2.27417, -31.7095)
 size = Vector3(3.89551, 0.723801, 8.04843)
 material = SubResource("StandardMaterial3D_submt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="combiner"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 7.7038, 1.61043, -22.0727)
+material_override = SubResource("StandardMaterial3D_mpigo")
+mesh = SubResource("BoxMesh_ku4q7")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="combiner/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="combiner/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_wy3r4")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("6_qdyrg")]
 transform = Transform3D(-0.240753, 0, 0.970586, 0, 1, 0, -0.970586, 0, -0.240753, -7.52405, 2.19208, -24.6459)

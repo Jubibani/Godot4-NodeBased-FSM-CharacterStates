@@ -2,8 +2,9 @@ class_name CharacterPlayer extends CharacterBody3D
 
 @export var animation_player : AnimationPlayer
 @export_range(5.0, 5.0, 10.0)var animation_speed = 3.5
-var SPEED = walking_speed
 
+#basic movements
+var SPEED = walking_speed
 var is_running : bool = false
 var is_crouching : bool = false
 var is_on_air : bool = false
@@ -24,6 +25,17 @@ var t_bob = 0.0
 const base_fov = 75.0
 const fov_change = 1.5
 
+#feature movements
+var is_wall_bouncing = false
+var last_wall_normal = Vector3.ZERO
+var wall_bounce_multiplier = 1.2
+var wall_bounce_availability = 3
+const wall_boost = 8.0
+
+var is_sliding = false
+const sliding_boost = 3.5
+
+
 
 @onready var camera = $head/Camera3D
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -35,7 +47,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var crouching_sound = $CrouchSound
 @onready var proning_sound = $ProneSound
 @onready var standing_sound = $StandSound
-
+@onready var wallbounce_sound = $WallBounceSound
 
 
 # Walking sound timer
@@ -44,10 +56,7 @@ var step_interval = 0.6
 
 var delta_time : float = 0.0 # make delta global
 
-
- 
 func _input(event):
-	
 	if event is InputEventScreenDrag:
 		var look_sensitivity = 0.5
 		rotate_y(deg_to_rad(-event.relative.x * look_sensitivity))
@@ -58,37 +67,37 @@ func _input(event):
 		head_rotation.x = clamp(head_rotation.x, -90, 90)
 		$head.rotation_degrees = head_rotation
 		
-func _physics_process(delta_time):
-
+func _physics_process(delta_time):	
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var input_dir = Input.get_vector("left", "right", "forward", "backward")
+	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta_time
 		is_on_air = true 
 		
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	#adding inertia to gravity
 	if is_on_floor():
+		#Reset bounces properly when landing (used in wall bounce script)
+		wall_bounce_availability = 3 
+		
+		#adding inertia to gravity
 		if is_on_air:
 			jumplanding_sound.play()
 			jumplanding_sound.volume_db = -30
 			
 			#reset
 			is_on_air = false	
-		
-		
+			
 		if direction:
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
 			
 			# Play footstep sound
 			footstep(delta_time)
-		
+			
+			
 		else:
 			#fix the movement momentum when we stop moving, the character stops in a weird manner with no momentum
 			velocity.x = lerp(velocity.x, direction.x * SPEED, delta_time  * 7.0)
@@ -97,6 +106,7 @@ func _physics_process(delta_time):
 		#inertia
 		velocity.x = lerp(velocity.x, direction.x * SPEED, delta_time  * 3.0)
 		velocity.z = lerp(velocity.z, direction.z * SPEED, delta_time  * 3.0)
+		
 		
 	#head bobbing
 	t_bob += delta_time  * velocity.length() * float(is_on_floor())
@@ -116,8 +126,6 @@ func _headbob(time) -> Vector3:
 	return pos
 		
 func footstep(delta_time ):
-
-	
 	time_since_step += delta_time 
 	if time_since_step >= step_interval:
 		footstep_sound.pitch_scale = randf() * 0.2 + 0.9

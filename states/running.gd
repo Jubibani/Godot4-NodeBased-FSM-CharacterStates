@@ -5,7 +5,6 @@ func enter(previous_state_path: String, data := {}) -> void:
 	print("running speed at: ", CharacterPlayer.SPEED)
 	
 	#!release the buttons pressed
-	Input.action_release("crouch_or_uncrouch")
 	Input.action_release("prone_or_unprone")
 	Input.action_release("run")
 	Input.action_release("Jump")
@@ -18,8 +17,7 @@ func enter(previous_state_path: String, data := {}) -> void:
 func physics_update(_delta: float) -> void:
 	
 	if Input.is_action_just_pressed("crouch_or_uncrouch"):
-		crouchingFromStand = true
-		finished.emit(StandCrouching)
+		finished.emit(Sliding)
 		Input.action_release("crouch_or_uncrouch")
 
 	

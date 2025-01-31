@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://d4fe48l2la7q4"]
+[gd_scene load_steps=30 format=3 uid="uid://d4fe48l2la7q4"]
 
 [ext_resource type="Script" path="res://scripts/Character.gd" id="1_apduv"]
 [ext_resource type="Script" path="res://addons/virtual_joystick/virtual_joystick.gd" id="2_l6x14"]
@@ -12,11 +12,14 @@
 [ext_resource type="Script" path="res://states/proning.gd" id="10_rqja2"]
 [ext_resource type="Script" path="res://states/running.gd" id="11_hjclv"]
 [ext_resource type="Script" path="res://states/jumping.gd" id="12_gp6kt"]
+[ext_resource type="Script" path="res://states/wall_bounce.gd" id="13_g7q1y"]
 [ext_resource type="AudioStream" uid="uid://dhfy5y3ah6v5i" path="res://raw/stepstone_1.wav" id="13_lfhj4"]
 [ext_resource type="AudioStream" uid="uid://dspnow353wx6j" path="res://raw/jump_land.wav" id="14_k20kf"]
+[ext_resource type="Script" path="res://states/slide.gd" id="14_st2fy"]
 [ext_resource type="AudioStream" uid="uid://cqedjumyldj1u" path="res://raw/crouch_sound.wav" id="15_0aduk"]
 [ext_resource type="AudioStream" uid="uid://b57rmayh6hkpr" path="res://raw/prone_sound.wav" id="16_wwftk"]
 [ext_resource type="AudioStream" uid="uid://fduem7l61yi6" path="res://raw/stand_sound.wav" id="17_lhouk"]
+[ext_resource type="AudioStream" uid="uid://b01nj8w8vgqf6" path="res://raw/wall_bounce_sound.wav" id="20_1vp7m"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nwh1x"]
 
@@ -381,6 +384,12 @@ script = ExtResource("11_hjclv")
 [node name="Jumping" type="Node" parent="StateMachine"]
 script = ExtResource("12_gp6kt")
 
+[node name="WallBounce" type="Node" parent="StateMachine"]
+script = ExtResource("13_g7q1y")
+
+[node name="Slide" type="Node" parent="StateMachine"]
+script = ExtResource("14_st2fy")
+
 [node name="FootStepSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("13_lfhj4")
 volume_db = -35.0
@@ -396,6 +405,9 @@ stream = ExtResource("16_wwftk")
 
 [node name="StandSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("17_lhouk")
+
+[node name="WallBounceSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("20_1vp7m")
 
 [connection signal="pressed" from="Control/buttons/jump" to="StateMachine/Standing" method="_on_jump_pressed"]
 [connection signal="pressed" from="Control/buttons/jump" to="StateMachine/Running" method="_on_jump_pressed"]

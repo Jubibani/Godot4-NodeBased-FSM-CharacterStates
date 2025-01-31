@@ -66,6 +66,11 @@ Jump={
 
 pointing/emulate_touch_from_mouse=true
 
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
+3d/default_gravity=12.5
+
 [rendering]
 
 renderer/rendering_method="mobile"

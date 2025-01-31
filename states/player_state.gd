@@ -1,12 +1,11 @@
 class_name PlayerState extends State
 
 
-
+#basic movements
 const Standing = "Standing"
 const StandCrouching = "StandCrouching"
 const ProneCrouching = "ProneCrouching"
 const Proning = "Proning"
-
 const Running = "Running"
 const Jumping = "Jumping"
 
@@ -21,6 +20,9 @@ const crouching_speed = 2.3
 const walking_speed = 5.5
 const running_speed = 12.5
 
+#feature movements
+const WallBounce = "WallBounce"
+const Sliding = "sliding"
 
 #for debugging
 #var display_output = "crouching: %s, proning: %s" % [str(crouching), str(proning)]
